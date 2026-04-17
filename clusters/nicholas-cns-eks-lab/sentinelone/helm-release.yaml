@@ -18,6 +18,11 @@ spec:
     cleanupOnFail: true
   driftDetection:
     mode: enabled
+  valuesFrom:
+    - kind: ConfigMap
+      name: s1-override-conf
+      valuesKey: overrideConf
+      targetPath: configuration.overrideConf
   values:
     configuration:
       cluster:
@@ -42,15 +47,6 @@ spec:
         helper:
           communicator_enabled: true
           inventory_enabled: true
-      overrideConf: |
-        {
-          "detectors": {
-            "execute_from_memfd_lua": {
-              "enabled": true,
-              "verdict": "silent"
-            }
-          }
-        }
     agent:
       nodeSelector:
         kubernetes.io/os: linux

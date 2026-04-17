@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: s1-override-conf
+  namespace: sentinelone-flux
+data:
+  overrideConf: |
+    {
+      "detectors": {
+        "execute_from_memfd_lua": {
+          "enabled": true,
+          "verdict": "silent"
+        }
+      }
+    }

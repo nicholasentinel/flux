@@ -18,10 +18,16 @@ spec:
     cleanupOnFail: true
   driftDetection:
     mode: enabled
-  valuesFrom:
-    - kind: ConfigMap
-      name: s1-override-conf
-      valuesKey: values.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: ConfigMap
+              name: sentinelone-flux-agent-config
+            patch: |
+              - op: add
+                path: /data/override.conf
+                value: '{"detectors":{"execute_from_memfd_lua":{"enabled":true,"verdict":"silent"}}}'
   values:
     configuration:
       cluster:

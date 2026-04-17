@@ -1,0 +1,8 @@
+{
+  "detectors": {
+    "execute_from_memfd_lua": {
+      "enabled": true,
+      "verdict": "silent"
+    }
+  }
+}

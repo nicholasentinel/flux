@@ -21,10 +21,11 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: s1-override-conf
+      valuesKey: values.yaml
   values:
     configuration:
       cluster:
-        name: nicholas-cns-eks-lab-r26BiD7Q
+        name: nicholas-cns-eks-lab-r26BiD7Q-flux-test
         uid: arn:aws:eks:us-west-2:361769585149:cluster/nicholas-cns-eks-lab-r26BiD7Q
       repositories:
         agent: containers.sentinelone.net/cws-agent/s1agent

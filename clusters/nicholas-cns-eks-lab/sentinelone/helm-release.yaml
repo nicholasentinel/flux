@@ -21,8 +21,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: s1-override-conf
-      valuesKey: overrideConf
-      targetPath: configuration.overrideConf
   values:
     configuration:
       cluster:

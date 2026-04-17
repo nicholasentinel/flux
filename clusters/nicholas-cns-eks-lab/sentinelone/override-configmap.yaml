@@ -4,4 +4,6 @@ metadata:
   name: s1-override-conf
   namespace: sentinelone-flux
 data:
-  overrideConf: '{"detectors":{"execute_from_memfd_lua":{"enabled":true,"verdict":"silent"}}}'
+  values.yaml: |
+    configuration:
+      overrideConf: '{"detectors":{"execute_from_memfd_lua":{"enabled":true,"verdict":"silent"}}}'

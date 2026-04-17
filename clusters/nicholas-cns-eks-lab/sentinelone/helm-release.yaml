@@ -1,0 +1,77 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: s1-agent
+  namespace: sentinelone-flux
+spec:
+  interval: 1h
+  releaseName: sentinelone-flux
+  chart:
+    spec:
+      chart: s1-agent
+      version: "25.4.2"
+      sourceRef:
+        kind: HelmRepository
+        name: sentinelone
+        namespace: flux-system
+  upgrade:
+    cleanupOnFail: true
+  driftDetection:
+    mode: enabled
+  values:
+    configuration:
+      cluster:
+        name: nicholas-cns-eks-lab-r26BiD7Q-flux-test
+        uid: arn:aws:eks:us-west-2:361769585149:cluster/nicholas-cns-eks-lab-r26BiD7Q
+      repositories:
+        agent: containers.sentinelone.net/cws-agent/s1agent
+        helper: containers.sentinelone.net/cws-agent/s1helper
+      tag:
+        agent: 25.4.2-ga
+        helper: 25.4.2-ga
+      proxy: ""
+      dv_proxy: ""
+      inventory_only: false
+      env:
+        admission_controllers:
+          validating:
+            enabled: true
+        agent:
+          heap_trimming_enable: true
+          log_level: debug
+        helper:
+          communicator_enabled: true
+          inventory_enabled: true
+      overrideConf: |
+        {
+          "detectors": {
+            "execute_from_memfd_lua": {
+              "enabled": true,
+              "verdict": "silent"
+            }
+          }
+        }
+    agent:
+      nodeSelector:
+        kubernetes.io/os: linux
+      resources:
+        limits:
+          cpu: 900m
+          memory: 1945Mi
+        requests:
+          cpu: 500m
+          memory: 800Mi
+    helper:
+      nodeSelector:
+        kubernetes.io/os: linux
+      resources:
+        limits:
+          cpu: 900m
+          memory: 1945Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+    secrets:
+      imagePullSecret: sentinelone-registry
+      site_key:
+        name: s1-key-secret
